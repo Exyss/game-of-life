@@ -1,0 +1,19 @@
+#world {
+    padding-bottom: 10px;
+}
+body{
+    text-align: center;
+}
+table {
+    background-color: whitesmoke;
+	margin: 0px auto;
+}
+td {
+    border: 1px solid darkgray;
+    width: 10px;
+    height: 10px;
+}
+
+.alive{
+    background-color: aqua;
+}

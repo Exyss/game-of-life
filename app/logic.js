@@ -77,6 +77,7 @@ function getNeighborCount(row, col) {
 }
 
 function createNextGen() {
+    
     for (row in currGen) {
         for (col in currGen[row]) {
            
@@ -86,21 +87,22 @@ function createNextGen() {
             if (currGen[row][col] == 1) {
               
                 if (neighbors < 2) {
-                    nextGen[row][col] = 0;
+                    nextGen[row][col] = 0;  //the cell dies because she is sad
+                    updatePopulation(-1);
                 }
                 else if (neighbors == 2 || neighbors == 3) {
-                    nextGen[row][col] = 1;
+                    nextGen[row][col] = 1;  //the cell lives on! yay!
                 }
-                else if (neighbors > 3) {
-                    nextGen[row][col] = 0;
+                else if (neighbors > 3) {   
+                    nextGen[row][col] = 0;  //the cell dies due to "overcrowding"
+                    updatePopulation(-1);
                 }
             }
             else if (currGen[row][col] == 0) {
-                // If Dead or Empty
-            
+                // If not already occupied
                 if (neighbors == 3) {
-                    // Propogate the species
-                    nextGen[row][col] = 1;  //Birth?
+                    nextGen[row][col] = 1;  //a new cell is born! HYPERS!
+                    updatePopulation(+1);
                 }
             }
         }

@@ -1,6 +1,8 @@
 const rows = 30;
 const cols = 80;
-var gen = 0;
+let gen = 0;
+let population = 0;
+let isPenEnabled = false;
 
 function createWorld() {
 
@@ -16,7 +18,10 @@ function createWorld() {
             let cell = document.createElement('td');
             cell.setAttribute('id', i + '-' + j);
             cell.setAttribute('class', 'dead');
-            cell.addEventListener('click', cellClick);
+            cell.addEventListener('click', updateCell);
+            cell.addEventListener('mousemove', updateCellsWithPen);  //
+            this.addEventListener('mousedown', enablePen);          // "pen" enables faster setup
+            this.addEventListener('mouseup', disablePen);           //
             tr.appendChild(cell);
         }
         table.appendChild(tr);
@@ -42,20 +47,61 @@ function updateWorld() {
     }
 }
 
-function cellClick() {
+function enablePen(){
+    isPenEnabled = true;
+}
+
+function disablePen(){
+    isPenEnabled = false;
+}
+
+function updateCellsWithPen() {
+
+    if(isPenEnabled){
+        let loc = this.id.split("-");
+        let row = Number(loc[0]); //Get i
+        let col = Number(loc[1]); //Get j
+        
+        // Select alive for all
+        if (this.className != 'alive'){
+            this.setAttribute('class', 'alive');
+            currGen[row][col] = 1;
+            updatePopulation(+1);
+        }
+    }
+}
+
+function updateCell() {
 
     let loc = this.id.split("-");
     let row = Number(loc[0]); //Get i
     let col = Number(loc[1]); //Get j
     
-    // Select alive or dead
-    if (this.className === 'alive'){
-        this.setAttribute('class', 'dead');
-        currGen[row][col] = 0;
-    }else{
+    // Switch between alive or dead
+    if (this.className != 'alive'){
         this.setAttribute('class', 'alive');
         currGen[row][col] = 1;
+        updatePopulation(+1);
     }
+    else{
+        this.setAttribute('class', 'dead');
+        currGen[row][col] = 0;
+        updatePopulation(-1);
+    }
+}
+
+function updatePopulation(increment){
+    population += increment;
+    document.getElementById("population").innerHTML = population;
+}
+
+function updateStatus(new_status){
+    document.getElementById("status").innerHTML = new_status;
+}
+
+function updateGeneration(increment){
+    gen += increment;
+    document.getElementById("generation").innerHTML = gen;
 }
 
 function setup(){
@@ -65,12 +111,26 @@ function setup(){
 }
 
 function evolve(){
-      
+    
+    oldPopulation = population;
     createNextGen();
     updateCurrGen();
+    updateGeneration(+1);
     updateWorld();
-    gen++;
-    document.getElementById("counter").innerHTML = gen;
+
+    if(population == 0){
+        updateStatus("Extinct");
+        document.getElementById("evolve").disabled = true;
+    }
+    else if(population > oldPopulation){
+        updateStatus("Growing");
+    }
+    else if(population < oldPopulation){
+        updateStatus("Decaying");
+    }
+    else{
+        updateStatus("Stasis");
+    }
 }
 
 function reset() {
@@ -86,6 +146,8 @@ function reset() {
             }
         }
     }
-    gen = 0;
-    document.getElementById("counter").innerHTML = gen;
+    updateGeneration(-gen);
+    updatePopulation(-population);
+    updateStatus("None");
+    document.getElementById("evolve").disabled = false;
 }

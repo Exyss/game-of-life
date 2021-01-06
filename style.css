@@ -1,19 +1,48 @@
-#world {
-    padding-bottom: 10px;
+:root{
+    --light: #e2e2e2;
+    --dark-gray: #383838;
+    --darker-gray: #2b2b2b;
+    --button: #948f8f;
+    --button-hover: #838282;
+    --cell-alive: #349fa3;
 }
+
 body{
     text-align: center;
+    background-color: var(--darker-gray);
+    color: var(--light);
 }
-table {
-    background-color: whitesmoke;
+
+#world{
+    padding-bottom: 10px;
+}
+table{
+    background-color: var(--darker-gray);
 	margin: 0px auto;
 }
-td {
-    border: 1px solid darkgray;
+td{
+    border: 1px solid var(--dark-gray);
     width: 10px;
     height: 10px;
 }
 
+#statistics span:not([id]){    /* do not apply to value spans*/
+    margin: 25px 25px;
+}
+
+#buttons{
+    margin: 15px 0px;
+}
+input[type=button]{
+    padding: 10px;
+    background-color: var(--button);
+    border: 1px solid var(--button);
+    border-radius: 15px;
+}
+input[type=button]:hover{
+    background-color: var(--button-hover);
+}
+
 .alive{
-    background-color: aqua;
+    background-color: var(--cell-alive);
 }

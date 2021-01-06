@@ -8,12 +8,17 @@
     <script src="app/world.js"></script>
     <script src="app/logic.js"></script>
 <body>
-    <div id="world">
-    </div>
-    <div>
-        <input type="button" value="Evolve" onclick="evolve()">
-        <input type="button" value="Reset" onclick="reset()">
-        <span>Current Generation: <span id="counter">0</span></span>
+    <div id="world"></div>
+    <div id="hud">
+        <div id="statistics">
+            <span>Generation: <span id="generation">0</span></span>
+            <span>Population: <span id="population">0</span></span>
+            <span>Status: <span id="status">None</span></span>
+        </div>
+        <div id="buttons">
+            <input type="button" id="evolve" value="Evolve" onclick="evolve()">
+            <input type="button" id="reset" value="Reset" onclick="reset()">
+        </div>
     </div>
     <script>window.onload=()=>{setup();}</script>
 </body>

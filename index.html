@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=initial-scale=1.0">
     <title>Game of Life</title>
     <link rel="stylesheet" href="style.css"></head>
+    <script src="app/game.js"></script>
     <script src="app/world.js"></script>
     <script src="app/logic.js"></script>
 <body>
@@ -14,12 +15,21 @@
             <span>Generation: <span id="generation">0</span></span>
             <span>Population: <span id="population">0</span></span>
             <span>Status: <span id="status">None</span></span>
+            <span>Speed: <span id="speed-value">1.00</span></span>
         </div>
-        <div id="buttons">
+        <div id="controls">
+            <input type="button" id="auto-evolve" value="Start autoevolving" onclick="startAutoevolving()">
             <input type="button" id="evolve" value="Evolve" onclick="evolve()">
             <input type="button" id="reset" value="Reset" onclick="reset()">
+            <input type="range" id="speed" min="50" max="200" value="100" >
         </div>
     </div>
-    <script>window.onload=()=>{setup();}</script>
+    <script>
+        window.onload=()=>{
+            setup();
+        }
+
+        document.getElementById("speed").addEventListener("input", updateEvolutionSpeed);
+    </script>
 </body>
 </html>

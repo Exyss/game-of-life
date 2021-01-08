@@ -1,9 +1,11 @@
-let currGen = [rows];   //
-let nextGen = [rows];   // Creates two-dimensional arrays
+let pattern = [rows];  //
+let currGen = [rows];   //creates two-dimensional arrays
+let nextGen = [rows];   // 
 
 function createGenArrays() {
 
     for (let i = 0; i < rows; i++) {
+        pattern[i] = new Array(cols);
         currGen[i] = new Array(cols);
         nextGen[i] = new Array(cols);
     }
@@ -13,6 +15,7 @@ function initGenArrays() {
 
     for (let i = 0; i < rows; i++) {
         for (let j = 0; j < cols; j++) {
+            pattern[i][j] = 0;
             currGen[i][j] = 0;
             nextGen[i][j] = 0;
         }
@@ -115,6 +118,9 @@ function updateCurrGen() {
     for (row in currGen) {
         for (col in currGen[row]) {
 
+            if(timesEvolved == 0){
+                pattern[row][col] = currGen[row][col];
+            }
             currGen[row][col] = nextGen[row][col];
             nextGen[row][col] = 0;
         }

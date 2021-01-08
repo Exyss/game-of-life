@@ -1,25 +1,19 @@
-let gen = 0;
-let population = 0;
 let isPenEnabled = false;
+let isUsingRightclick = false;
+let isAutoEvOn = false;
 let evolutionSpeed = 1;
 
-function updatePopulation(increment){
-    population += increment;
-    document.getElementById("population").innerHTML = population;
+window.onload=()=>{     //setup game
+    createWorld();
+    createGenArrays();
+    initGenArrays();
+    document.getElementById("sld-speed").addEventListener("input", updateEvSpeed);
+    updateEvSpeed();
 }
 
-function updateStatus(new_status){
-    document.getElementById("status").innerHTML = new_status;
-}
-
-function updateGeneration(increment){
-    gen += increment;
-    document.getElementById("generation").innerHTML = gen;
-}
-
-function updateEvolutionSpeed(){
-    evolutionSpeed = Number(document.getElementById("speed").value)/100;
-    document.getElementById("speed-value").innerHTML = evolutionSpeed.toFixed(2);
+function updateEvSpeed(){
+    evolutionSpeed = Number(document.getElementById("sld-speed").value)/100;
+    document.getElementById("speed").innerHTML = evolutionSpeed.toFixed(2);
 }
 
 function updateCell() {
@@ -41,38 +35,85 @@ function updateCell() {
     }
 }
 
-function updateCellsWithPen() {
+function updateCellsWithPen(pressedButton) {
 
     if(isPenEnabled){
         let loc = this.id.split("-");
         let row = Number(loc[0]); //Get i
         let col = Number(loc[1]); //Get j
         
-        // Select alive for all
-        if (this.className != 'alive'){
-            this.setAttribute('class', 'alive');
-            currGen[row][col] = 1;
-            updatePopulation(+1);
+        if(isUsingRightclick){  //kill every cell passed through
+            if (this.className != 'dead'){
+                this.setAttribute('class', 'dead');
+                currGen[row][col] = 0;
+                updatePopulation(-1);
+            }
         }
+        else{   //revive every cell passed through
+            if (this.className != 'alive'){
+                this.setAttribute('class', 'alive');
+                currGen[row][col] = 1;
+                updatePopulation(+1);
+            }
+        }
+        
     }
 }
 
-function enablePen(){
+function pressed(e){
     isPenEnabled = true;
+    if (e.which) isUsingRightclick = (e.which == 3);
+    else if (e.button) isUsingRightclick = (e.button == 2);
+
+    if(isUsingRightclick) document.body.style.cursor = "pointer";
+    else document.body.style.cursor = "crosshair";
 }
 
-function disablePen(){
+function released(){
     isPenEnabled = false;
-}
-
-function setup(){
-    createWorld();
-    createGenArrays();
-    initGenArrays();
+    isUsingRightclick = false;
+    document.body.style.cursor = "default";
 }
 
 function reset() {
     
+    if(isAutoEvOn){
+        stopAutoEv();
+    }
+
+    updateGeneration(-timesEvolved);
+    updatePopulation(-population);
+    updateStatus("None");
+    document.getElementById("btn-evolve").disabled = false;
+
+    for (let i = 0; i < rows; i++) {
+        for (let j = 0; j < cols; j++) {
+
+            let cell = document.getElementById(i + "-" + j);
+            currGen[i][j] = pattern[i][j];
+
+            if(currGen[i][j] == 1){
+                cell.setAttribute('class', 'alive');
+                updatePopulation(+1);
+            }
+            else{
+                cell.setAttribute('class', 'dead');
+            }
+        }
+    }
+}
+
+function kill() {
+    
+    if(isAutoEvOn){
+        stopAutoEv();
+    }
+
+    updateGeneration(-timesEvolved);
+    updatePopulation(-population);
+    updateStatus("None");
+    document.getElementById("btn-evolve").disabled = false;
+
     for (let i = 0; i < rows; i++) {
         for (let j = 0; j < cols; j++) {
 
@@ -84,10 +125,6 @@ function reset() {
             }
         }
     }
-    updateGeneration(-gen);
-    updatePopulation(-population);
-    updateStatus("None");
-    document.getElementById("evolve").disabled = false;
 }
 
 function evolve(){
@@ -100,7 +137,7 @@ function evolve(){
 
     if(population == 0){
         updateStatus("Extinct");
-        document.getElementById("evolve").disabled = true;
+        document.getElementById("btn-evolve").disabled = true;
     }
     else if(population > oldPopulation){
         updateStatus("Growing");
@@ -119,20 +156,24 @@ function autoevolve(){
         evolve();
     }
     else{
-        stopAutoevolving();
+        stopAutoEv();
     }
 }
 
-function startAutoevolving(){
+function startAutoEv(){
 
-    evolutionInterval = setInterval(autoevolve, 1000/evolutionSpeed);
-    document.getElementById("auto-evolve").setAttribute("value", "Stop autoevolving");
-    document.getElementById("auto-evolve").setAttribute("onclick", "stopAutoevolving()");
+    isAutoEvOn = true;
+    evolutionInterval = setInterval(autoevolve, 500/evolutionSpeed);
+    document.getElementById("btn-auto").setAttribute("value", "Stop auto-evolving");
+    document.getElementById("btn-auto").setAttribute("onclick", "stopAutoEv()");
+    document.getElementById("btn-evolve").disabled = true;
 }
 
-function stopAutoevolving(){
+function stopAutoEv(){
 
+    isAutoEvOn = false;
     clearInterval(evolutionInterval);
-    document.getElementById("auto-evolve").setAttribute("value", "Start autoevolving");
-    document.getElementById("auto-evolve").setAttribute("onclick", "startAutoevolving()");
+    document.getElementById("btn-auto").setAttribute("value", "Start auto-evolving");
+    document.getElementById("btn-auto").setAttribute("onclick", "startAutoEv()");
+    document.getElementById("btn-evolve").disabled = false;
 }

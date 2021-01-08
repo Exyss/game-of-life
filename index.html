@@ -8,28 +8,39 @@
     <script src="app/game.js"></script>
     <script src="app/world.js"></script>
     <script src="app/logic.js"></script>
+    <script src="app/statistics.js"></script>
 <body>
     <div id="world"></div>
-    <div id="hud">
-        <div id="statistics">
-            <span>Generation: <span id="generation">0</span></span>
-            <span>Population: <span id="population">0</span></span>
-            <span>Status: <span id="status">None</span></span>
-            <span>Speed: <span id="speed-value">1.00</span></span>
-        </div>
-        <div id="controls">
-            <input type="button" id="auto-evolve" value="Start autoevolving" onclick="startAutoevolving()">
-            <input type="button" id="evolve" value="Evolve" onclick="evolve()">
-            <input type="button" id="reset" value="Reset" onclick="reset()">
-            <input type="range" id="speed" min="25" max="400" value="100" >
+    <div class="hud">
+        <div class="v-center-elements">
+            <div class="statistics">
+                <div class="v-center-elements">
+                    <div class="box">
+                        <span>Generation: <span id="generation">0</span></span>
+                        <span>Population: <span id="population">0</span></span>
+                        <span>Status: <span id="status">None</span></span>
+                    </div>
+                </div>
+            </div>
+            <div class="buttons">
+                <div class="v-center-elements">
+                    <div class="box">
+                        <input type="button" class="button" id="btn-auto" value="Start auto-evolution" onclick="startAutoEv()">
+                        <input type="button" class="button" id="btn-evolve" value="Evolve" onclick="evolve()">
+                        <input type="button" class="button" id="btn-reset" value="Reset Pattern" onclick="reset()">
+                        <input type="button" class="button" id="btn-clear" value="Clear" onclick="kill()">
+                    </div>
+                </div>
+            </div>
+            <div class="slider">
+                <div class="v-center-elements">
+                    <div class="box">
+                        <span>Speed: <span id="speed">1.00</span></span>
+                        <input type="range" id="sld-speed" min="25" max="400" value="100">
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <script>
-        window.onload=()=>{
-            setup();
-        }
-
-        document.getElementById("speed").addEventListener("input", updateEvolutionSpeed);
-    </script>
 </body>
 </html>

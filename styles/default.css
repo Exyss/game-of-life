@@ -2,12 +2,14 @@
     --light: #e2e2e2;
     --dark-gray: #383838;
     --darker-gray: #2b2b2b;
-    --button: #948f8f;
-    --button-hover: #838282;
+    --bright-blue: #2dabf9;
+    --vivid-blue: #0688fa;
     --cell-alive: #349fa3;
 }
 
 body{
+    font-size: 15px;
+    font-family: 'Roboto', sans-serif;
     text-align: center;
     background-color: var(--darker-gray);
     color: var(--light);
@@ -15,32 +17,82 @@ body{
 
 #world{
     padding-bottom: 10px;
+    -webkit-user-drag: none;
 }
 table{
+    margin: 0px auto;
+    border-collapse: collapse;
     background-color: var(--darker-gray);
-	margin: 0px auto;
+    -webkit-user-drag: none;
 }
 td{
-    border: 1px solid var(--dark-gray);
     width: 10px;
     height: 10px;
+    border: 1px solid var(--dark-gray);
+    -webkit-user-drag: none;
 }
 
-#statistics span:not([id]){    /* do not apply to value spans*/
-    margin: 25px 25px;
+.hud{
+    height: 100px;
+    margin-top: 5px;
 }
 
-#controls{
-    margin: 15px 0px;
+.v-center-elements{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
 }
-input[type=button]{
-    padding: 10px;
-    background-color: var(--button);
-    border: 1px solid var(--button);
-    border-radius: 15px;
+
+.statistics{
+    display: inline-block;
+    text-align: left;
+    height: 100%;
+    width: 25%;
 }
-input[type=button]:hover{
-    background-color: var(--button-hover);
+.statistics span:not([id]){    /* apply to spans with no id*/
+    margin: 5px 0px;
+    display: block;
+}
+
+.buttons{
+    display: block;
+    height: 100%;
+}
+
+.slider{
+    display: inline-block;
+    height: 100%;
+    width: 25%;
+}
+.slider span:not([id]){
+    margin: 5px 0px;
+    display: block;
+}
+
+.button {
+	box-shadow: inset 0px -3px 7px 0px var(--bright-blue);
+	background: linear-gradient(to bottom, var(--bright-blue), var(--vivid-blue) 100%);
+	background-color: var(--bright-blue);
+	border-radius: 5px;
+	border: 1px solid black;
+	display: inline-block;
+	cursor: pointer;
+	color: var(--light);
+	font-family: Arial;
+	font-size: 15px;
+	padding: 9px 23px;
+    min-width: 110px;
+	text-decoration: none;
+	text-shadow: 0px 1px 0px var(--darker-gray);
+}
+.button:hover {
+	background: linear-gradient(to bottom, var(--vivid-blue) 5%, var(--bright-blue) 100%);
+	background-color: var(--vivid-blue);
+}
+.button:active {
+	position: relative;
+	top: 1px;
 }
 
 .alive{

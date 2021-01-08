@@ -1,5 +1,5 @@
-const rows = 30;
-const cols = 80;
+const rows = 35;
+const cols = 100;
 
 function createWorld() {
 
@@ -15,10 +15,13 @@ function createWorld() {
             let cell = document.createElement('td');
             cell.setAttribute('id', i + '-' + j);
             cell.setAttribute('class', 'dead');
-            cell.addEventListener('click', updateCell);
-            cell.addEventListener('mousemove', updateCellsWithPen);  //
-            this.addEventListener('mousedown', enablePen);          // "pen" enables faster setup
-            this.addEventListener('mouseup', disablePen);           //
+
+            cell.addEventListener('contextmenu', function(e){e.preventDefault();}); //disable context menu on cells
+            cell.addEventListener('click', updateCell);     // swap status on single click
+            cell.addEventListener('mousemove', updateCellsWithPen);         //
+            this.addEventListener('mousedown', function(e){pressed(e);});   // "drawing" tool for faster setup
+            this.addEventListener('mouseup', released);                     //
+
             tr.appendChild(cell);
         }
         table.appendChild(tr);

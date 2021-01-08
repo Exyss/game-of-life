@@ -2,8 +2,8 @@
     --light: #e2e2e2;
     --dark-gray: #383838;
     --darker-gray: #2b2b2b;
-    --bright-blue: #2dabf9;
-    --vivid-blue: #0688fa;
+    --dark-cyan: #177E89;
+    --darker-cyan: #156d77;
     --cell-alive: #349fa3;
 }
 
@@ -70,29 +70,23 @@ td{
     display: block;
 }
 
-.button {
-	box-shadow: inset 0px -3px 7px 0px var(--bright-blue);
-	background: linear-gradient(to bottom, var(--bright-blue), var(--vivid-blue) 100%);
-	background-color: var(--bright-blue);
-	border-radius: 5px;
-	border: 1px solid black;
-	display: inline-block;
-	cursor: pointer;
-	color: var(--light);
-	font-family: Arial;
+.button{
+	min-width: 150px;
 	font-size: 15px;
-	padding: 9px 23px;
-    min-width: 110px;
-	text-decoration: none;
-	text-shadow: 0px 1px 0px var(--darker-gray);
+    padding: 10px;
+    border: 1px solid transparent;
+    border-radius: 7px;
+    color: var(--light);
+    background-color: var(--dark-cyan);
 }
-.button:hover {
-	background: linear-gradient(to bottom, var(--vivid-blue) 5%, var(--bright-blue) 100%);
-	background-color: var(--vivid-blue);
+
+.button:hover, .button:focus{
+    background-color: var(--darker-cyan);
+    cursor: pointer;
 }
-.button:active {
-	position: relative;
-	top: 1px;
+
+.button:focus{
+	outline: 0;
 }
 
 .alive{

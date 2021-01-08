@@ -1,5 +1,7 @@
 # Conway's Game of Life
 
+To play the game, [click here](https://exyss.github.io/game-of-life/play.html)!
+
 ## How does the game work?
 __Conway's Game of Life__ is a famous cellular automata that simulates the evolution of a society made by very simple life forms.
 

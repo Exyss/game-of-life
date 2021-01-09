@@ -9,6 +9,7 @@
     <script src="app/world.js"></script>
     <script src="app/logic.js"></script>
     <script src="app/statistics.js"></script>
+    <script src="app/patterns.js"></script>
 </head>
 <body>
     <div id="world"></div>
@@ -28,8 +29,15 @@
                     <div class="box">
                         <input type="button" class="button" id="btn-auto" value="Start auto-evolution" onclick="startAutoEv()">
                         <input type="button" class="button" id="btn-evolve" value="Evolve" onclick="evolve()">
-                        <input type="button" class="button" id="btn-reset" value="Reset Pattern" onclick="reset()">
+                        <input type="button" class="button" id="btn-reset" value="Reset" onclick="reset()">
                         <input type="button" class="button" id="btn-clear" value="Clear" onclick="kill()">
+                        <div class="dropdown">
+                            <input type="button" class="button" id="btn-pattern" value="Patterns">
+                            <div class="dropdown-content" id="list-pattern">
+                                <a href="#" onclick="applyNestedFramePattern()">Nested frame</a>
+                                <a href="#" onclick="applyRandomPattern()">Random</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -37,7 +45,7 @@
                 <div class="v-center-elements">
                     <div class="box">
                         <span>Speed: <span id="speed">1.00</span></span>
-                        <input type="range" id="sld-speed" min="25" max="400" value="100">
+                        <input type="range" id="sld-speed" min="25" max="400" value="200">
                     </div>
                 </div>
             </div>

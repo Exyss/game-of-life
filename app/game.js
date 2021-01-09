@@ -7,7 +7,21 @@ window.onload=()=>{     //setup game
     createWorld();
     createGenArrays();
     initGenArrays();
-    document.getElementById("sld-speed").addEventListener("input", updateEvSpeed);
+    document.getElementById("sld-speed").addEventListener("input", function(){
+        updateEvSpeed();
+        if(isAutoEvOn){
+            stopAutoEv();
+            startAutoEv();
+        }
+    });
+    document.getElementById("list-pattern").addEventListener("mouseover", function(){
+        document.getElementById("btn-pattern").style.borderTopLeftRadius = "0px";
+        document.getElementById("btn-pattern").style.borderTopRightRadius = "0px";
+    });
+    document.getElementById("list-pattern").addEventListener("mouseout", function(){
+        document.getElementById("btn-pattern").style.borderTopLeftRadius = "";
+        document.getElementById("btn-pattern").style.borderTopRightRadius = "";
+    });
     updateEvSpeed();
 }
 
@@ -163,7 +177,7 @@ function autoevolve(){
 function startAutoEv(){
 
     isAutoEvOn = true;
-    evolutionInterval = setInterval(autoevolve, 500/evolutionSpeed);
+    evolutionInterval = setInterval(autoevolve, 250/evolutionSpeed);
     document.getElementById("btn-auto").setAttribute("value", "Stop auto-evolving");
     document.getElementById("btn-auto").setAttribute("onclick", "stopAutoEv()");
     document.getElementById("btn-evolve").disabled = true;

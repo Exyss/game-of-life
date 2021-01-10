@@ -10,7 +10,7 @@ window.onload=()=>{     //setup game
     initGenArrays();
     document.getElementById("sld-speed").addEventListener("input", function(){
         updateEvSpeed();
-        if(isAutoEvDisabled){
+        if(!isAutoEvDisabled){
             stopAutoEv();
             startAutoEv();
         }

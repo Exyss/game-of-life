@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=initial-scale=1.0">
     <title>Conway's Game of Life</title>
     <link rel="stylesheet" href="styles/default.css"></head>
+	<script src="https://kit.fontawesome.com/44caaaecfc.js" crossorigin="anonymous"></script>
     <script src="app/game.js"></script>
     <script src="app/world.js"></script>
     <script src="app/logic.js"></script>
@@ -20,19 +21,19 @@
                     <div class="box">
                         <span>Generation: <span id="generation">0</span></span>
                         <span>Population: <span id="population">0</span></span>
-                        <span>Status: <span id="status">None</span></span>
+                        <span>Status: <span id="status">Unknown</span></span>
                     </div>
                 </div>
             </div>
             <div class="buttons">
                 <div class="v-center-elements">
                     <div class="box">
-                        <input type="button" class="button" id="btn-auto" value="Start auto-evolution" onclick="startAutoEv()">
-                        <input type="button" class="button" id="btn-evolve" value="Evolve" onclick="evolve()">
-                        <input type="button" class="button" id="btn-reset" value="Reset" onclick="reset()">
-                        <input type="button" class="button" id="btn-clear" value="Clear" onclick="kill()">
+                        <button id="btn-auto" onclick="startAutoEv()">Auto-evolve <i class="fas fa-play"></i></button>
+                        <button id="btn-evolve" onclick="evolve()">Evolve <i class="fas fa-step-forward"></i></button>
+                        <button id="btn-reset" onclick="reset()">Reset <i class="fas fa-history"></i></button>
+                        <button id="btn-clear" onclick="kill()">Clear <i class="fas fa-broom"></i></button>
                         <div class="dropdown">
-                            <input type="button" class="button" id="btn-pattern" value="Patterns">
+                            <button id="btn-pattern">Patterns <i class="fas fa-angle-double-up"></i></button>
                             <div class="dropdown-content" id="list-pattern">
                                 <a href="#" onclick="applyNestedFramePattern()">Nested frame</a>
                                 <a href="#" onclick="applyRandomPattern()">Random</a>

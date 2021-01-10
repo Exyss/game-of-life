@@ -5,6 +5,9 @@
     --dark-cyan: #177E89;
     --darker-cyan: #156d77;
     --cell-alive: #349fa3;
+    --success: #198754;
+    --warning: #ffc107;
+    --danger: #dc3545;
 }
 
 body{
@@ -48,7 +51,7 @@ td{
     display: inline-block;
     text-align: left;
     height: 100%;
-    width: 15%;
+    width: 20%;
 }
 .statistics span:not([id]){    /* apply to spans with no id*/
     margin: 5px 0px;
@@ -71,7 +74,7 @@ td{
     display: block;
 }
 
-.button{
+button{
 	min-width: 150px;
 	font-size: 15px;
     padding: 10px;
@@ -80,12 +83,16 @@ td{
     color: var(--light);
     background-color: var(--dark-cyan);
 }
-.button:hover{
+button:hover{
     background-color: var(--darker-cyan);
     cursor: pointer;
 }
-.button:focus{
+button:focus{
 	outline: 0;
+}
+button[disabled=disabled], button:disabled{
+	
+    background-color: #638488;
 }
 
 .dropdown {
@@ -113,7 +120,7 @@ td{
 .dropdown-content a:hover {
     background-color: #c5c3c3
 }
-.dropdown .button:hover{
+.dropdown button:hover{
     border-top-left-radius: 0px;
     border-top-right-radius: 0px;
 }

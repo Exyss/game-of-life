@@ -1,6 +1,7 @@
 let isPenEnabled = false;
 let isUsingRightclick = false;
-let isAutoEvOn = false;
+let isEvDisabled = false;
+let isAutoEvDisabled = true;
 let evolutionSpeed = 1;
 
 window.onload=()=>{     //setup game
@@ -9,7 +10,7 @@ window.onload=()=>{     //setup game
     initGenArrays();
     document.getElementById("sld-speed").addEventListener("input", function(){
         updateEvSpeed();
-        if(isAutoEvOn){
+        if(isAutoEvDisabled){
             stopAutoEv();
             startAutoEv();
         }
@@ -32,6 +33,11 @@ function updateEvSpeed(){
 
 function updateCell() {
 
+    if(isEvDisabled){
+        setStatusTo(null);
+        enableEvolution();
+    }
+
     let loc = this.id.split("-");
     let row = Number(loc[0]); //Get i
     let col = Number(loc[1]); //Get j
@@ -52,6 +58,11 @@ function updateCell() {
 function updateCellsWithPen(pressedButton) {
 
     if(isPenEnabled){
+        if(isEvDisabled){
+            setStatusTo(null);
+            enableEvolution();
+        }
+
         let loc = this.id.split("-");
         let row = Number(loc[0]); //Get i
         let col = Number(loc[1]); //Get j
@@ -91,14 +102,13 @@ function released(){
 
 function reset() {
     
-    if(isAutoEvOn){
-        stopAutoEv();
-    }
-
     updateGeneration(-timesEvolved);
     updatePopulation(-population);
-    updateStatus("None");
-    document.getElementById("btn-evolve").disabled = false;
+    setStatusTo(null);
+    enableEvolution();
+    if(!isAutoEvDisabled){
+        stopAutoEv();
+    }
 
     for (let i = 0; i < rows; i++) {
         for (let j = 0; j < cols; j++) {
@@ -119,14 +129,13 @@ function reset() {
 
 function kill() {
     
-    if(isAutoEvOn){
-        stopAutoEv();
-    }
-
     updateGeneration(-timesEvolved);
     updatePopulation(-population);
-    updateStatus("None");
-    document.getElementById("btn-evolve").disabled = false;
+    setStatusTo(null);
+    enableEvolution();
+    if(!isAutoEvDisabled){
+        stopAutoEv();
+    }
 
     for (let i = 0; i < rows; i++) {
         for (let j = 0; j < cols; j++) {
@@ -143,51 +152,72 @@ function kill() {
 
 function evolve(){
     
-    oldPopulation = population;
-    createNextGen();
-    updateCurrGen();
-    updateGeneration(+1);
-    updateWorld();
+    if(!isEvDisabled){
+        oldPopulation = population;
+        createNextGen();
+        updateCurrGen();
+        updateGeneration(+1);
+        updateWorld();
 
-    if(population == 0){
-        updateStatus("Extinct");
-        document.getElementById("btn-evolve").disabled = true;
-    }
-    else if(population > oldPopulation){
-        updateStatus("Growing");
-    }
-    else if(population < oldPopulation){
-        updateStatus("Decaying");
-    }
-    else{
-        updateStatus("Stasis");
+        if(population == 0){
+            setStatusTo("EXTINCT");
+            disableEvolution();
+        }
+        else if(population > oldPopulation){
+            setStatusTo("GROWING");
+        }
+        else if(population < oldPopulation){
+            setStatusTo("DECAYING");
+        }
+        else{
+            setStatusTo("STASIS");
+        }
     }
 }
 
 function autoevolve(){
 
-    if(population > 0){
+    if(!isAutoEvDisabled){
         evolve();
-    }
-    else{
-        stopAutoEv();
     }
 }
 
 function startAutoEv(){
 
-    isAutoEvOn = true;
-    evolutionInterval = setInterval(autoevolve, 250/evolutionSpeed);
-    document.getElementById("btn-auto").setAttribute("value", "Stop auto-evolving");
-    document.getElementById("btn-auto").setAttribute("onclick", "stopAutoEv()");
-    document.getElementById("btn-evolve").disabled = true;
+    if(!isEvDisabled){
+        if(population == 0){
+            setStatusTo("EXTINCT");
+            disableEvolution();
+        }
+        else{
+            isAutoEvDisabled = false;
+            evolutionInterval = setInterval(autoevolve, 250/evolutionSpeed);
+            document.getElementById("btn-auto").innerHTML = 'Auto-evolve <i class="fas fa-equals fa-rotate-90"></i>';
+            document.getElementById("btn-auto").setAttribute("onclick", "stopAutoEv()");
+            document.getElementById("btn-evolve").disabled = true;
+        }
+    }
 }
 
 function stopAutoEv(){
 
-    isAutoEvOn = false;
+    isAutoEvDisabled = true;
     clearInterval(evolutionInterval);
-    document.getElementById("btn-auto").setAttribute("value", "Start auto-evolving");
+    document.getElementById("btn-auto").innerHTML = 'Auto-evolve <i class="fas fa-play"></i>';
     document.getElementById("btn-auto").setAttribute("onclick", "startAutoEv()");
     document.getElementById("btn-evolve").disabled = false;
+}
+
+function enableEvolution(){
+    
+    isEvDisabled = false;
+    document.getElementById("btn-evolve").disabled = false;
+    document.getElementById("btn-auto").disabled = false;
+}
+function disableEvolution(){
+    
+    isEvDisabled = true;
+    if(!isAutoEvDisabled){stopAutoEv();}
+    document.getElementById("btn-evolve").disabled = true;
+    document.getElementById("btn-auto").disabled = true;
 }
